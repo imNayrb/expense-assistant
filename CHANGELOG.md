@@ -5,6 +5,15 @@ Tutte le modifiche rilevanti del progetto sono documentate in questo file, dalla
 Il formato si basa su [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/)
 e il progetto segue il [Versionamento Semantico](https://semver.org/lang/it/).
 
+## [1.0.2] - 2026-10-22
+
+### Modificato
+- README riscritto come pagina di presentazione del progetto: banner, GIF animata del
+  flusso principale, funzionalità, motivazioni e attestati Anthropic Academy collegati al
+  codice in cui sono applicati, diagrammi di architettura, stack, avvio rapido, test,
+  struttura e prossimi passi.
+- Immagini spostate in `docs/media/`.
+
 ## [1.0.1] - 2026-10-22
 
 ### Aggiunto
