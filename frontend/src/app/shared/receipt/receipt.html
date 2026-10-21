@@ -1,0 +1,67 @@
+<form class="receipt" (ngSubmit)="submit()" aria-labelledby="receipt-heading">
+  <h2 id="receipt-heading" class="heading">{{ heading() }}</h2>
+
+  <div class="field">
+    <label for="r-description">Descrizione</label>
+    <input
+      id="r-description"
+      name="description"
+      [(ngModel)]="form().description"
+      (ngModelChange)="touch()"
+      maxlength="255"
+      required
+    />
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label for="r-category">Categoria</label>
+      <select
+        id="r-category"
+        name="category"
+        [(ngModel)]="form().category"
+        (ngModelChange)="touch()"
+        required
+      >
+        @for (c of categories(); track c.code) {
+          <option [value]="c.code">{{ c.label }}</option>
+        }
+      </select>
+    </div>
+    <div class="field">
+      <label for="r-date">Data</label>
+      <input
+        id="r-date"
+        name="date"
+        type="date"
+        class="mono"
+        [(ngModel)]="form().date"
+        (ngModelChange)="touch()"
+        required
+      />
+    </div>
+  </div>
+
+  <div class="total">
+    <label for="r-amount">Totale {{ form().currency }}</label>
+    <input
+      id="r-amount"
+      name="amount"
+      type="number"
+      inputmode="decimal"
+      min="0.01"
+      step="0.01"
+      class="mono"
+      [(ngModel)]="form().amount"
+      (ngModelChange)="touch()"
+      required
+    />
+  </div>
+
+  <div class="actions">
+    <button type="submit" class="btn" [disabled]="!valid() || saving()">
+      {{ saving() ? 'Salvataggio…' : 'Salva spesa' }}
+    </button>
+    <button type="button" class="btn ghost" (click)="discard.emit()">Scarta</button>
+  </div>
+</form>
