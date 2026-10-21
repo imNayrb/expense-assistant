@@ -11,7 +11,12 @@ e il progetto segue il [Versionamento Semantico](https://semver.org/lang/it/).
 - CI: audit delle dipendenze del frontend (`npm audit`, fallisce con vulnerabilità alte o
   critiche) e del server MCP (`pip-audit`).
 - Workflow "Sicurezza": job che riporta come annotazioni gli avvisi CodeQL aperti su `main`
-  e fallisce se ce ne sono di gravità alta o critica.
+  (o nel codice della pull request) e fallisce se ce ne sono di gravità alta o critica.
+
+### Sicurezza
+- Il database H2 di sviluppo non ha più una password vuota (avviso CodeQL
+  `empty-password-in-configuration-file`): usa le stesse credenziali e variabili
+  (`DB_USER`, `DB_PASSWORD`) del profilo PostgreSQL.
 
 ## [1.0.5] - 2026-10-22
 

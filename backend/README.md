@@ -34,7 +34,8 @@ da fake e il contratto HTTP viene verificato con `MockRestServiceServer`.
 | `ANTHROPIC_MODEL`      | `claude-haiku-5-5`       | Modello usato per parsing e chat           |
 | `CORS_ALLOWED_ORIGINS` | `http://localhost:4200`  | Origini consentite dal browser, separate da virgola |
 | `SPRING_PROFILES_ACTIVE` | *(nessuno)*            | `postgres` per usare PostgreSQL            |
-| `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` | vedi `application-postgres.yml` | Connessione a PostgreSQL |
+| `DB_USER`, `DB_PASSWORD` | `expenses` / `expenses` | Credenziali del database, sia H2 sia PostgreSQL |
+| `DB_HOST`, `DB_PORT`, `DB_NAME` | vedi `application-postgres.yml` | Connessione a PostgreSQL |
 
 ## API
 

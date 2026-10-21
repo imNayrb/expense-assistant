@@ -4,8 +4,9 @@ spring:
   # Default: H2 su file, nessuna configurazione. Usa il profilo "postgres" per PostgreSQL.
   datasource:
     url: jdbc:h2:file:./data/expenses
-    username: sa
-    password:
+    # Stesse credenziali del profilo "postgres", configurabili con le stesse variabili.
+    username: ${DB_USER:expenses}
+    password: ${DB_PASSWORD:expenses}
   jpa:
     open-in-view: false
     hibernate:
