@@ -17,7 +17,7 @@ expense-assistant/
 ├── backend/      API REST Spring Boot 3 (Java 21): persistenza + integrazione con Claude
 ├── mcp-server/   Server MCP in Python che espone le spese come tool, resource e prompt
 ├── frontend/     Web app Angular (interfaccia in italiano)
-├── docs/         Note di architettura (ARCHITETTURA.md) e screenshot
+├── docs/         Note di architettura (ARCHITETTURA.md) e immagini (media/)
 ├── scripts/      Test end-to-end dello stack (smoke-test.sh)
 ├── .github/      Workflow di CI e template delle PR
 ├── CHANGELOG.md  Cronostoria di tutte le modifiche
