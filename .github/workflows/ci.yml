@@ -24,11 +24,11 @@ jobs:
       run:
         working-directory: backend
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           # Il token non resta salvato nella copia locale del repository.
           persist-credentials: false
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: "21"
@@ -44,11 +44,11 @@ jobs:
       run:
         working-directory: mcp-server
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           # Il token non resta salvato nella copia locale del repository.
           persist-credentials: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: pip
@@ -70,11 +70,11 @@ jobs:
       run:
         working-directory: frontend
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           # Il token non resta salvato nella copia locale del repository.
           persist-credentials: false
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           # Node 24 include npm 11, la versione usata per il lockfile.
           node-version: "24"
@@ -96,7 +96,7 @@ jobs:
     timeout-minutes: 30
     needs: [backend, mcp-server, frontend]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           # Il token non resta salvato nella copia locale del repository.
           persist-credentials: false
@@ -104,7 +104,7 @@ jobs:
         run: docker compose up -d --build
       - name: Test delle API e del frontend
         run: ./scripts/smoke-test.sh
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - name: Test del server MCP contro il backend reale
