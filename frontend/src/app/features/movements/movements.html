@@ -1,0 +1,72 @@
+<header class="head">
+  <div>
+    <h1>Movimenti</h1>
+    @if (expenses()) {
+      <p class="muted">{{ total() | currency: 'EUR' }} a {{ monthName() }}</p>
+    }
+  </div>
+  <app-month-picker [(month)]="month" />
+</header>
+
+<div class="chips filters" role="group" aria-label="Filtra per categoria">
+  <button
+    type="button"
+    class="chip pressable"
+    [attr.aria-pressed]="category() === ''"
+    (click)="category.set('')"
+  >
+    Tutte
+  </button>
+  @for (c of categories(); track c.code) {
+    <button
+      type="button"
+      class="chip pressable"
+      [attr.aria-pressed]="category() === c.code"
+      (click)="toggleCategory(c.code)"
+    >
+      <lucide-icon
+        [img]="style(c.code).icon"
+        [size]="15"
+        [style.color]="category() === c.code ? null : style(c.code).color"
+      />
+      {{ c.label }}
+    </button>
+  }
+</div>
+
+@if (error()) {
+  <p class="notice error" role="alert">{{ error() }}</p>
+}
+
+@if (expenses() === null) {
+  <div class="day" aria-hidden="true">
+    @for (i of [1, 2, 3, 4]; track i) {
+      <div class="skeleton row-skeleton"></div>
+    }
+  </div>
+} @else if (days().length === 0) {
+  <div class="empty card">
+    <p>Nessun movimento a {{ monthName() }}{{ category() ? ' in questa categoria' : '' }}.</p>
+    <button type="button" class="btn" (click)="ui.openSheet()">Aggiungi una spesa</button>
+  </div>
+} @else {
+  @for (day of days(); track day.date; let d = $index) {
+    <section class="day">
+      <h2 class="day-head">
+        <span class="day-name">{{ day.date | date: 'EEEE d MMMM' }}</span>
+        <span class="muted">{{ day.total | currency: 'EUR' }}</span>
+      </h2>
+      <div class="rows card">
+        @for (expense of day.expenses; track expense.id; let i = $index) {
+          <app-expense-row
+            class="rise"
+            [style.--i]="d * 2 + i"
+            [expense]="expense"
+            (remove)="remove($event)"
+          />
+        }
+      </div>
+    </section>
+  }
+  <p class="tip muted">Su telefono, scorri una spesa verso sinistra per eliminarla.</p>
+}

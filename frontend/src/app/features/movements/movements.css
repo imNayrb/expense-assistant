@@ -1,0 +1,64 @@
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.head .muted {
+  margin-top: 0.2rem;
+  font-weight: 600;
+}
+
+.filters {
+  margin: 0 calc(-1 * var(--gutter)) 1rem;
+  padding-inline: var(--gutter);
+}
+
+.day {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Intestazione del giorno che resta visibile mentre si scorre */
+.day-head {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: var(--bg);
+}
+
+.day-name::first-letter {
+  text-transform: uppercase;
+}
+
+.rows {
+  display: grid;
+  gap: 1px;
+  padding: 0.3rem;
+  overflow: hidden;
+}
+
+.row-skeleton {
+  height: 4rem;
+  border-radius: var(--radius);
+}
+
+.tip {
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+@media (hover: hover) {
+  .tip {
+    display: none;
+  }
+}

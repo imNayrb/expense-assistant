@@ -1,88 +1,48 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import {
+  ChartPie,
+  LayoutGrid,
+  List,
+  LucideAngularModule,
+  LucideIconData,
+  MessageCircle,
+  Plus,
+  Wallet,
+} from 'lucide-angular';
+import { UiState } from './core/ui-state';
+import { AddSheet } from './shared/add-sheet/add-sheet';
+import { ToastHost } from './shared/toast-host/toast-host';
 
-/** Guscio dell'app: intestazione con la navigazione e area delle pagine. */
+interface NavLink {
+  path: string;
+  label: string;
+  icon: LucideIconData;
+}
+
+/**
+ * Guscio dell'app. Su mobile: tab bar in basso con il "+" al centro, come un'app nativa.
+ * Su desktop: barra laterale. Il pannello di inserimento e le notifiche vivono qui,
+ * così sono raggiungibili da ogni pagina.
+ */
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
-  template: `
-    <header class="bar">
-      <a class="brand" routerLink="/">Spese</a>
-      <nav aria-label="Sezioni">
-        @for (link of links; track link.path) {
-          <a
-            [routerLink]="link.path"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            ariaCurrentWhenActive="page"
-            >{{ link.label }}</a
-          >
-        }
-      </nav>
-    </header>
-    <main>
-      <router-outlet />
-    </main>
-  `,
-  styles: `
-    .bar {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 1rem;
-      flex-wrap: wrap;
-      max-width: var(--page-width);
-      margin: 0 auto;
-      padding: 1.25rem var(--gutter) 0.5rem;
-    }
-    .brand {
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-      text-decoration: none;
-    }
-    nav {
-      display: flex;
-      gap: 0.25rem;
-      flex-wrap: wrap;
-    }
-    nav a {
-      padding: 0.35rem 0.7rem;
-      border-radius: 999px;
-      color: var(--muted);
-      text-decoration: none;
-      font-weight: 500;
-    }
-    nav a:hover {
-      color: var(--ink);
-    }
-    nav a.active {
-      background: var(--ink);
-      color: var(--paper);
-    }
-    @media (max-width: 30rem) {
-      nav {
-        width: 100%;
-        justify-content: space-between;
-        flex-wrap: nowrap;
-      }
-      nav a {
-        padding: 0.35rem 0.55rem;
-      }
-    }
-    main {
-      max-width: var(--page-width);
-      margin: 0 auto;
-      padding: 1rem var(--gutter) 4rem;
-    }
-  `,
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, LucideAngularModule, AddSheet, ToastHost],
+  templateUrl: './app.html',
+  styleUrl: './app.css',
 })
 export class App {
-  protected readonly links = [
-    { path: '/', label: 'Aggiungi' },
-    { path: '/spese', label: 'Spese' },
-    { path: '/riepilogo', label: 'Riepilogo' },
-    { path: '/chiedi', label: 'Chiedi' },
+  protected readonly ui = inject(UiState);
+  protected readonly icons = { Plus, Wallet };
+
+  protected readonly links: NavLink[] = [
+    { path: '/', label: 'Panoramica', icon: LayoutGrid },
+    { path: '/movimenti', label: 'Movimenti', icon: List },
+    { path: '/statistiche', label: 'Statistiche', icon: ChartPie },
+    { path: '/assistente', label: 'Assistente', icon: MessageCircle },
   ];
+
+  /** Nella tab bar il "+" sta in mezzo: due link a sinistra, due a destra. */
+  protected readonly leftLinks = this.links.slice(0, 2);
+  protected readonly rightLinks = this.links.slice(2);
 }

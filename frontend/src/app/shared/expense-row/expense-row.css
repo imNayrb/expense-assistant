@@ -1,0 +1,110 @@
+:host {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+.content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.7rem 0.75rem;
+  background: var(--bg-elev);
+  border-radius: var(--radius);
+  touch-action: pan-y;
+  transition: transform 320ms var(--ease-spring);
+  will-change: transform;
+}
+
+.content.dragging {
+  transition: none;
+}
+
+.what {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.what .muted {
+  font-size: 0.85rem;
+}
+
+.amount {
+  display: grid;
+  justify-items: end;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.amount small {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Azione scoperta dallo swipe */
+.delete {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 88px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0.1rem;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--negative);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 120ms;
+}
+
+.delete.revealed {
+  opacity: 1;
+}
+
+/* Pulsante per mouse e tastiera, nascosto sui dispositivi touch */
+.quick-delete {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-left: -0.25rem;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  opacity: 0;
+  transition:
+    opacity 160ms,
+    color 160ms,
+    background 160ms;
+}
+
+.content:hover .quick-delete,
+.quick-delete:focus-visible {
+  opacity: 1;
+}
+
+.quick-delete:hover {
+  color: var(--negative);
+  background: color-mix(in srgb, var(--negative) 14%, transparent);
+}
+
+@media (hover: none) {
+  .quick-delete {
+    display: none;
+  }
+}

@@ -1,0 +1,130 @@
+<dialog
+  #dialog
+  aria-labelledby="sheet-title"
+  [class.closing]="closing()"
+  (cancel)="onCancel($event)"
+  (click)="onDialogClick($event)"
+>
+  <div
+    class="panel"
+    [class.dragging]="dragY() > 0"
+    [style.transform]="dragY() ? 'translateY(' + dragY() + 'px)' : null"
+  >
+    <div
+      class="drag-zone"
+      (pointerdown)="dragBegin($event)"
+      (pointermove)="dragMove($event)"
+      (pointerup)="dragEnd()"
+      (pointercancel)="dragEnd()"
+    >
+      <span class="grabber" aria-hidden="true"></span>
+      <header>
+        <h2 id="sheet-title">Nuova spesa</h2>
+        <button
+          type="button"
+          class="icon-btn pressable"
+          (click)="close()"
+          (pointerdown)="$event.stopPropagation()"
+          aria-label="Chiudi"
+        >
+          <lucide-icon [img]="icons.X" [size]="20" />
+        </button>
+      </header>
+    </div>
+
+    <div class="body">
+      @if (error()) {
+        <p class="notice error" role="alert">{{ error() }}</p>
+      }
+
+      @switch (step()) {
+        @case ('input') {
+          @if (assistantEnabled() === false) {
+            <p class="notice">
+              L'assistente non è attivo: imposta ANTHROPIC_API_KEY nel backend per scrivere le spese
+              a parole.
+            </p>
+            <button type="button" class="btn block" (click)="startManual()">
+              Inserisci a mano
+            </button>
+          } @else {
+            <form class="ask" (ngSubmit)="interpret()">
+              <label for="sheet-text" class="sr-only">Descrivi la spesa</label>
+              <input
+                #textInput
+                id="sheet-text"
+                name="text"
+                autocomplete="off"
+                enterkeyhint="send"
+                placeholder="Scrivila come la diresti…"
+                [ngModel]="text()"
+                (ngModelChange)="text.set($event)"
+                maxlength="500"
+              />
+              <button
+                type="submit"
+                class="send pressable"
+                [disabled]="!text().trim()"
+                aria-label="Interpreta"
+              >
+                <lucide-icon [img]="icons.ArrowUp" [size]="20" [strokeWidth]="2.6" />
+              </button>
+            </form>
+            <p class="hint">
+              <lucide-icon [img]="icons.Sparkles" [size]="14" /> Claude capisce importo, categoria e
+              data, anche "ieri" o "lunedì scorso".
+            </p>
+            <div class="chips" aria-label="Esempi">
+              @for (example of examples; track example) {
+                <button type="button" class="chip pressable" (click)="interpret(example)">
+                  {{ example }}
+                </button>
+              }
+            </div>
+            <button type="button" class="link" (click)="startManual()">
+              Preferisci inserirla a mano?
+            </button>
+          }
+        }
+
+        @case ('parsing') {
+          <div class="parsing" role="status">
+            <span class="orb" aria-hidden="true">
+              <lucide-icon [img]="icons.Sparkles" [size]="22" />
+            </span>
+            <p>Sto leggendo "{{ text() }}"…</p>
+            <div class="skeleton receipt-skeleton" aria-hidden="true"></div>
+          </div>
+        }
+
+        @case ('draft') {
+          @if (draft(); as current) {
+            <app-receipt
+              [draft]="current"
+              [categories]="categories()"
+              [saving]="saving()"
+              [heading]="manual() ? 'Nuova spesa' : 'Ho capito così, confermi?'"
+              (save)="save($event)"
+              (discard)="backToInput()"
+            />
+          }
+        }
+
+        @case ('saved') {
+          @if (saved(); as expense) {
+            <div class="done" role="status">
+              <svg class="check" viewBox="0 0 52 52" aria-hidden="true">
+                <circle cx="26" cy="26" r="24" />
+                <path d="M15 27l7 7 15-16" />
+              </svg>
+              <h3>Spesa salvata</h3>
+              <p class="muted">
+                {{ expense.description }}, {{ expense.amount | currency: expense.currency }}
+              </p>
+            </div>
+          }
+        }
+      }
+    </div>
+  </div>
+</dialog>

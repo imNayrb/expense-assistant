@@ -1,0 +1,285 @@
+/* Su mobile: bottom sheet ancorato in basso. Su desktop: finestra centrata. */
+dialog {
+  width: 100%;
+  max-width: 32rem;
+  max-height: 92dvh;
+  margin: auto auto 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  overflow: visible;
+}
+
+dialog::backdrop {
+  background: rgb(4 7 18 / 0.6);
+  backdrop-filter: blur(8px);
+  animation: fade-in 260ms ease both;
+}
+
+dialog.closing::backdrop {
+  animation: fade-out 220ms ease both;
+}
+
+.panel {
+  max-height: 92dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--bg-elev);
+  border: 1px solid var(--stroke);
+  border-bottom: none;
+  border-radius: 1.75rem 1.75rem 0 0;
+  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+  box-shadow: var(--shadow);
+  animation: sheet-up 420ms var(--ease-out) backwards;
+  transition: transform 300ms var(--ease-spring);
+}
+
+.panel.dragging {
+  transition: none;
+}
+
+dialog.closing .panel {
+  animation: sheet-down 220ms ease-in both;
+}
+
+@media (min-width: 60rem) {
+  dialog {
+    margin: auto;
+  }
+  .panel {
+    border-bottom: 1px solid var(--stroke);
+    border-radius: 1.75rem;
+    padding-bottom: 1.5rem;
+    animation-name: pop-in;
+  }
+  dialog.closing .panel {
+    animation-name: pop-out;
+  }
+  .grabber {
+    display: none;
+  }
+}
+
+.drag-zone {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 0.6rem 1.25rem 0.5rem;
+  background: var(--bg-elev);
+  touch-action: none;
+  cursor: grab;
+}
+
+.grabber {
+  display: block;
+  width: 2.5rem;
+  height: 0.3rem;
+  margin: 0 auto 0.6rem;
+  border-radius: 999px;
+  background: var(--stroke);
+  background: color-mix(in srgb, var(--text) 22%, transparent);
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header h2 {
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.icon-btn {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 50%;
+  background: var(--bg-elev-2);
+  transition: transform 160ms var(--ease-out);
+}
+
+.body {
+  display: grid;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem 0;
+}
+
+/* Campo di testo grande con pulsante di invio integrato */
+.ask {
+  position: relative;
+}
+
+.ask input {
+  min-height: 3.75rem;
+  padding: 0 4rem 0 1.1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 1.25rem;
+}
+
+.send {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-top: -1.375rem;
+  border: none;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  transition:
+    transform 200ms var(--ease-spring),
+    opacity 160ms;
+}
+
+.send:disabled {
+  opacity: 0.35;
+  transform: scale(0.85);
+  cursor: not-allowed;
+}
+
+.hint {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: -0.4rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.chips {
+  flex-wrap: wrap;
+}
+
+.link {
+  justify-self: start;
+  border: none;
+  background: none;
+  padding: 0.25rem 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Attesa della risposta di Claude */
+.parsing {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  text-align: center;
+  color: var(--muted);
+  padding-top: 0.5rem;
+}
+
+.orb {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--hero);
+  animation: breathe 1.4s ease-in-out infinite;
+}
+
+.receipt-skeleton {
+  width: 100%;
+  height: 16rem;
+  border-radius: 0.5rem;
+}
+
+/* Conferma con spunta disegnata */
+.done {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  padding: 1.5rem 0 1rem;
+  text-align: center;
+}
+
+.done h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-top: 0.5rem;
+}
+
+.check {
+  width: 4.5rem;
+  height: 4.5rem;
+  fill: none;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.check circle {
+  stroke: var(--positive);
+  stroke-dasharray: 151;
+  stroke-dashoffset: 151;
+  animation: draw 520ms var(--ease-out) forwards;
+}
+
+.check path {
+  stroke: var(--positive);
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: draw 360ms 380ms var(--ease-out) forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes breathe {
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 10px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes sheet-down {
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+}
+
+@keyframes pop-out {
+  to {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,119 @@
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.donut-card {
+  display: grid;
+  place-items: center;
+  padding: 1.75rem 1rem;
+}
+
+.donut {
+  position: relative;
+  width: min(17rem, 72vw);
+  aspect-ratio: 1;
+}
+
+svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+circle {
+  fill: none;
+  stroke-width: 4.2;
+}
+
+.track {
+  stroke: var(--bg-elev-2);
+}
+
+.slice {
+  stroke-linecap: butt;
+  transition: stroke-dasharray 1000ms var(--ease-out);
+}
+
+.center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  text-align: center;
+}
+
+.center .total {
+  font-size: clamp(1.6rem, 6vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.center .muted {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.list-title {
+  margin: 2rem 0 0.75rem;
+}
+
+.ranking {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ranking li {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius);
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.line {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-weight: 700;
+}
+
+.bar {
+  height: 0.4rem;
+  border-radius: 999px;
+  background: var(--bg-elev-2);
+  overflow: hidden;
+}
+
+/* Le barre crescono con transform (scaleX): animazione sulla GPU, niente reflow. */
+.bar span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  transform-origin: left;
+  transition: transform 900ms var(--ease-out);
+}
+
+.meta {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.donut-skeleton {
+  height: 20rem;
+  border-radius: var(--radius-lg);
+}

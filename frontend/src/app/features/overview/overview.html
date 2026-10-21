@@ -1,0 +1,85 @@
+<section class="hero" aria-labelledby="hero-label">
+  <p id="hero-label" class="label">Speso a {{ monthName }}</p>
+  @if (summary(); as s) {
+    <p class="total" [appCountUp]="s.total"></p>
+    @if (delta(); as d) {
+      @if (d.pct === 0) {
+        <p class="delta">In linea con lo stesso periodo di {{ previousName }}</p>
+      } @else {
+        <p class="delta" [class.up]="!d.lower">
+          <lucide-icon [img]="d.lower ? icons.TrendingDown : icons.TrendingUp" [size]="16" />
+          {{ d.pct }}% {{ d.lower ? 'in meno' : 'in più' }} rispetto a {{ previousName }}
+        </p>
+      }
+    } @else {
+      <p class="delta neutral">{{ s.count === 1 ? '1 spesa' : s.count + ' spese' }} finora</p>
+    }
+
+    @if (segments().length) {
+      <div class="split" aria-hidden="true">
+        @for (seg of segments(); track seg.code; let i = $index) {
+          <span
+            class="seg"
+            [style.flex-grow]="seg.share"
+            [style.background]="seg.color"
+            [style.--i]="i"
+          ></span>
+        }
+      </div>
+      <ul class="legend">
+        @for (seg of segments(); track seg.code) {
+          <li>
+            <span class="dot" [style.background]="seg.color"></span>{{ seg.label }}
+            <span class="pct">{{ seg.share | number: '1.0-0' }}%</span>
+          </li>
+        }
+      </ul>
+    }
+  } @else {
+    <div class="skeleton total-skeleton" aria-hidden="true"></div>
+  }
+</section>
+
+<button type="button" class="quick pressable" (click)="ui.openSheet()">
+  <span class="spark"><lucide-icon [img]="icons.Sparkles" [size]="18" /></span>
+  <span class="quick-text">
+    <strong>Scrivi una spesa</strong>
+    <span class="muted">es. "ieri 30€ di benzina"</span>
+  </span>
+</button>
+
+@if (error()) {
+  <p class="notice error" role="alert">{{ error() }}</p>
+}
+
+<div class="section-head">
+  <h2>Ultimi movimenti</h2>
+  <a routerLink="/movimenti">Vedi tutti</a>
+</div>
+
+@if (recent(); as list) {
+  @if (list.length) {
+    <div class="list">
+      @for (expense of list; track expense.id; let i = $index) {
+        <div class="rise" [style.--i]="i">
+          <app-expense-row
+            [expense]="expense"
+            [deletable]="false"
+            [caption]="expense.date | date: 'd MMM'"
+          />
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="empty card">
+      <p>Ancora nessuna spesa a {{ monthName }}.</p>
+      <button type="button" class="btn" (click)="ui.openSheet()">Aggiungi la prima</button>
+    </div>
+  }
+} @else {
+  <div class="list" aria-hidden="true">
+    @for (i of [1, 2, 3]; track i) {
+      <div class="skeleton row-skeleton"></div>
+    }
+  </div>
+}

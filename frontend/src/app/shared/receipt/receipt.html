@@ -47,13 +47,14 @@
     <input
       id="r-amount"
       name="amount"
-      type="number"
+      type="text"
       inputmode="decimal"
-      min="0.01"
-      step="0.01"
+      autocomplete="off"
+      placeholder="0,00"
       class="mono"
-      [(ngModel)]="form().amount"
-      (ngModelChange)="touch()"
+      [ngModel]="amountText()"
+      (ngModelChange)="amountText.set($event)"
+      (blur)="tidyAmount()"
       required
     />
   </div>
@@ -62,6 +63,6 @@
     <button type="submit" class="btn" [disabled]="!valid() || saving()">
       {{ saving() ? 'Salvataggio…' : 'Salva spesa' }}
     </button>
-    <button type="button" class="btn ghost" (click)="discard.emit()">Scarta</button>
+    <button type="button" class="btn secondary" (click)="discard.emit()">Scarta</button>
   </div>
 </form>
