@@ -14,7 +14,7 @@ Claude Desktop e Claude Code.
 |---------------|----------------------------|----------------------------------------------|
 | [`backend/`](backend/README.md) | Java 21, Spring Boot 3 | API REST, persistenza, integrazione con Claude |
 | [`mcp-server/`](mcp-server/README.md) | Python 3.11+, SDK MCP 2.x | Espone le spese ai client MCP |
-| `frontend/`   | Angular                    | Interfaccia web                              |
+| [`frontend/`](frontend/README.md) | Angular 21 | Interfaccia web                  |
 
 ## Licenza
 

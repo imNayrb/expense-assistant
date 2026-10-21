@@ -5,6 +5,22 @@ Tutte le modifiche rilevanti del progetto sono documentate in questo file, dalla
 Il formato si basa su [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/)
 e il progetto segue il [Versionamento Semantico](https://semver.org/lang/it/).
 
+## [0.4.0] - 2026-10-21
+
+### Aggiunto
+- **Frontend** (Angular 21, componenti standalone, signals, zoneless), in italiano:
+  - pagina **Aggiungi**: la spesa scritta a parole viene interpretata da Claude e
+    mostrata come uno scontrino modificabile da confermare; inserimento manuale quando
+    l'assistente non è attivo;
+  - pagina **Spese**: spese del mese raggruppate per giorno, filtro per categoria,
+    eliminazione con conferma;
+  - pagina **Riepilogo**: totale del mese e barre proporzionali per categoria;
+  - pagina **Chiedi**: chat sulle spese con indicazione dei dati consultati da Claude.
+  - Selettore del mese, formati italiani per date e importi, tema chiaro e scuro,
+    proxy di sviluppo verso il backend.
+  - Test con Vitest (utility delle date, client dell'API, flusso di inserimento).
+- Job di CI per il frontend (Prettier, test, build di produzione).
+
 ## [0.3.0] - 2026-10-21
 
 ### Aggiunto
