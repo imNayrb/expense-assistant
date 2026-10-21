@@ -1,5 +1,14 @@
 # Dependabot apre pull request per aggiornare le dipendenze, una volta a settimana.
-# Gli aggiornamenti minori e le patch sono raggruppati per non riempire il repository di PR.
+#
+# Regole:
+# - solo aggiornamenti minori e patch, raggruppati per non riempire il repository di PR;
+# - le versioni maggiori (es. Spring Boot 4, Angular 22) richiedono migrazioni e si fanno a
+#   mano in una PR dedicata;
+# - le immagini Docker restano sulle versioni LTS usate anche in CI e nella documentazione
+#   (Java 21, Node 24);
+# - fanno eccezione le GitHub Actions: anche le versioni maggiori sono proposte, perché la CI
+#   le verifica direttamente.
+# Gli aggiornamenti di sicurezza (Dependabot security updates) non sono soggetti a queste regole.
 version: 2
 
 updates:
@@ -11,6 +20,9 @@ updates:
       timezone: Europe/Rome
     commit-message:
       prefix: "chore(backend)"
+    ignore:
+      - dependency-name: "*"
+        update-types: [version-update:semver-major]
     groups:
       dipendenze-backend:
         update-types: [minor, patch]
@@ -23,6 +35,9 @@ updates:
       timezone: Europe/Rome
     commit-message:
       prefix: "chore(mcp-server)"
+    ignore:
+      - dependency-name: "*"
+        update-types: [version-update:semver-major]
     groups:
       dipendenze-mcp-server:
         update-types: [minor, patch]
@@ -35,6 +50,12 @@ updates:
       timezone: Europe/Rome
     commit-message:
       prefix: "chore(frontend)"
+    ignore:
+      - dependency-name: "*"
+        update-types: [version-update:semver-major]
+      # TypeScript segue le versioni supportate da Angular: si aggiorna insieme ad Angular.
+      - dependency-name: typescript
+        update-types: [version-update:semver-minor]
     groups:
       # Angular va aggiornato tutto insieme: pacchetti con versioni diverse non sono compatibili.
       angular:
@@ -51,6 +72,15 @@ updates:
       timezone: Europe/Rome
     commit-message:
       prefix: "chore(docker)"
+    ignore:
+      # Java 21 e Node 24 sono le versioni LTS del progetto.
+      - dependency-name: eclipse-temurin
+        update-types: [version-update:semver-major]
+      - dependency-name: node
+        update-types: [version-update:semver-major]
+      # Il tag dell'immagine Maven contiene anche il JDK (3.9-eclipse-temurin-21): Dependabot
+      # proporrebbe di cambiare JDK, quindi questa immagine si aggiorna a mano.
+      - dependency-name: maven
 
   - package-ecosystem: github-actions
     directory: /

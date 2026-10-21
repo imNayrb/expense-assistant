@@ -5,6 +5,16 @@ Tutte le modifiche rilevanti del progetto sono documentate in questo file, dalla
 Il formato si basa su [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/)
 e il progetto segue il [Versionamento Semantico](https://semver.org/lang/it/).
 
+## [1.0.4] - 2026-10-22
+
+### Modificato
+- nginx del frontend aggiornato da 1.27 a 1.31 (Dependabot, PR #16).
+- GitHub Actions aggiornate all'ultima versione maggiore: `checkout` 7, `setup-java` 6,
+  `setup-python` 7, `setup-node` 7, `dependency-review-action` 5 (Dependabot, PR #17).
+- Dependabot propone solo aggiornamenti minori e patch: le versioni maggiori (Spring Boot 4,
+  Angular 22, TypeScript 7…) richiedono migrazioni e si fanno a mano. Le immagini Docker
+  restano su Java 21 e Node 24 LTS.
+
 ## [1.0.3] - 2026-10-22
 
 ### Aggiunto
