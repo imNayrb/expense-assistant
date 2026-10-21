@@ -5,6 +5,17 @@ Tutte le modifiche rilevanti del progetto sono documentate in questo file, dalla
 Il formato si basa su [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/)
 e il progetto segue il [Versionamento Semantico](https://semver.org/lang/it/).
 
+## [1.0.5] - 2026-10-22
+
+### Sicurezza
+- Corrette 4 vulnerabilità (3 alte, 1 bassa) negli strumenti di sviluppo del frontend, senza
+  passare ad Angular 22: `overrides` npm forzano `vite` 7.3.7 e `@modelcontextprotocol/sdk`
+  1.32.1, dipendenze indirette di `@angular/build` e `@angular/cli`. Non riguardano il codice
+  distribuito nell'app. Da rimuovere quando Angular pubblicherà una patch con queste versioni.
+
+### Modificato
+- Spring Boot aggiornato da 3.5.6 a 3.5.16 (Dependabot, PR #23).
+
 ## [1.0.4] - 2026-10-22
 
 ### Modificato

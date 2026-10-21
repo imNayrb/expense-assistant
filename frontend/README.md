@@ -36,6 +36,13 @@ npm run build
 npm run format:check   # Prettier
 ```
 
+## Override delle dipendenze
+
+`package.json` contiene degli `overrides` che forzano `vite` e `@modelcontextprotocol/sdk`
+a versioni senza vulnerabilità note: sono dipendenze indirette degli strumenti di Angular 21,
+che le fissa a versioni vulnerabili. Vanno rimossi quando una patch di Angular 21 includerà
+versioni corrette (verifica con `npm audit` dopo averli tolti).
+
 ## Struttura
 
 ```
