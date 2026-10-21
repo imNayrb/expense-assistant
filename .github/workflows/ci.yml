@@ -29,3 +29,25 @@ jobs:
           cache: maven
       - name: Build e test
         run: mvn -B -ntp verify
+
+  mcp-server:
+    name: Server MCP (Python)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mcp-server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: mcp-server/pyproject.toml
+      - name: Installa le dipendenze
+        run: pip install -e ".[dev]"
+      - name: Lint e formattazione
+        run: |
+          ruff check .
+          ruff format --check .
+      - name: Test
+        run: pytest -q

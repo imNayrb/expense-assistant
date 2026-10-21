@@ -5,6 +5,20 @@ Tutte le modifiche rilevanti del progetto sono documentate in questo file, dalla
 Il formato si basa su [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/)
 e il progetto segue il [Versionamento Semantico](https://semver.org/lang/it/).
 
+## [0.3.0] - 2026-10-21
+
+### Aggiunto
+- **Server MCP** (Python, SDK MCP 2.x) che espone le spese ai client MCP
+  (Claude Desktop, Claude Code):
+  - tool `list_expenses`, `get_summary`, `add_expense`, `delete_expense`, con annotations
+    MCP di sola lettura e distruttive;
+  - resource `expenses://categories` ed `expenses://summary/current-month`;
+  - prompt `monthly_review` per l'analisi guidata di un mese.
+  - Il server chiama l'API REST del backend e converte gli errori in messaggi leggibili
+    dal modello; trasporto stdio.
+  - Test con backend finto (`httpx.MockTransport`) e client MCP in-process.
+- Job di CI per il server MCP (ruff e pytest).
+
 ## [0.2.0] - 2026-10-21
 
 ### Aggiunto
