@@ -50,4 +50,6 @@ Sono invece considerati problemi di sicurezza, da segnalare come sopra:
   dell'API REST, con un limite di 5 giri per conversazione.
 - Il container del backend gira con un utente non privilegiato.
 - I workflow di CI hanno permessi in sola lettura.
-- Dependabot tiene aggiornate le dipendenze; CodeQL analizza il codice a ogni pull request.
+- Dependabot tiene aggiornate le dipendenze; CodeQL analizza il codice a ogni pull request e
+  la CI fallisce se restano avvisi di gravità alta o critica.
+- La CI esegue l'audit delle dipendenze di frontend (`npm audit`) e server MCP (`pip-audit`).
