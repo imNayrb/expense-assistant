@@ -5,6 +5,28 @@ Tutte le modifiche rilevanti del progetto sono documentate in questo file, dalla
 Il formato si basa su [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/)
 e il progetto segue il [Versionamento Semantico](https://semver.org/lang/it/).
 
+## [1.0.0] - 2026-10-21
+
+### Modificato
+- **Interfaccia ridisegnata** in stile app fintech:
+  - tema scuro di default con tema chiaro automatico; font Manrope con cifre tabulari;
+  - tab bar mobile con "+" centrale e barra laterale su desktop;
+  - nuove pagine Panoramica, Movimenti, Statistiche e Assistente (percorsi `/`,
+    `/movimenti`, `/statistiche`, `/assistente`);
+  - inserimento in un bottom sheet raggiungibile da ogni pagina, con chiusura trascinando;
+  - icone e colori per ogni categoria; importo dello scontrino in formato italiano.
+- La pagina "Aggiungi" è sostituita dal bottom sheet.
+
+### Aggiunto
+- Panoramica con totale del mese animato, confronto con lo stesso periodo del mese
+  precedente e barra segmentata per categoria.
+- Statistiche con grafico a ciambella animato e classifica delle categorie.
+- Eliminazione con swipe e notifica con "Annulla"; skeleton durante il caricamento.
+- Animazioni: View Transitions tra le pagine, contatori, barre, spunta di conferma,
+  indicatore di scrittura in chat; tutte disattivate con `prefers-reduced-motion`.
+- Screenshot nel README.
+- Test per bottom sheet, eliminazione annullabile, importi e tab bar (20 test).
+
 ## [0.5.0] - 2026-10-21
 
 ### Aggiunto

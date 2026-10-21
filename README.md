@@ -5,6 +5,17 @@ domande sui tuoi dati in linguaggio naturale. Claude trasforma le frasi in spese
 strutturate tramite **tool use**, e un **server MCP** rende gli stessi dati disponibili
 a Claude Desktop e Claude Code.
 
+<p align="center">
+  <img src="docs/screenshots/panoramica.png" alt="Panoramica con il totale del mese" width="24%" />
+  <img src="docs/screenshots/scontrino.png" alt="Spesa interpretata da Claude come scontrino da confermare" width="24%" />
+  <img src="docs/screenshots/statistiche.png" alt="Statistiche per categoria" width="24%" />
+  <img src="docs/screenshots/assistente.png" alt="Chat con l'assistente" width="24%" />
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/desktop.png" alt="Versione desktop" width="90%" />
+</p>
+
 ## Funzionalità
 
 - **Inserimento a parole**: la frase diventa una bozza (descrizione, importo, categoria,
