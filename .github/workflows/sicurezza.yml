@@ -1,0 +1,63 @@
+name: Sicurezza
+
+# Analisi statica del codice (CodeQL) e controllo delle nuove dipendenze nelle pull request.
+# Entrambi sono gratuiti per i repository pubblici; su un repository privato richiedono
+# GitHub Advanced Security, quindi i job vengono saltati finché il repository è privato.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 6 * * 1" # ogni lunedì, per trovare vulnerabilità scoperte di recente
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sicurezza-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  codeql:
+    name: CodeQL (${{ matrix.language }})
+    if: ${{ !github.event.repository.private }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [java-kotlin, python, javascript-typescript, actions]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: none
+          queries: security-extended
+      - uses: github/codeql-action/analyze@v4
+        with:
+          category: /language:${{ matrix.language }}
+
+  dipendenze:
+    name: Revisione delle dipendenze
+    if: ${{ github.event_name == 'pull_request' && !github.event.repository.private }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/dependency-review-action@v4
+        with:
+          # Blocca la PR se introduce dipendenze con vulnerabilità di gravità alta o critica.
+          fail-on-severity: high
+          comment-summary-in-pr: on-failure

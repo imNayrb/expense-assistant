@@ -1,0 +1,6 @@
+# Niente issue senza modello: ogni segnalazione ha le informazioni necessarie.
+blank_issues_enabled: false
+contact_links:
+  - name: Segnala una vulnerabilità
+    url: https://github.com/imNayrb/expense-assistant/security/advisories/new
+    about: I problemi di sicurezza vanno segnalati in privato, non con una issue pubblica.

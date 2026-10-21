@@ -1,0 +1,8 @@
+# Proprietario del codice: è richiesto come revisore di ogni pull request
+# (se la protezione di main richiede la revisione dei code owner).
+* @imNayrb
+
+# File sensibili per la sicurezza e l'automazione: sempre sotto revisione del proprietario.
+/.github/ @imNayrb
+/SECURITY.md @imNayrb
+/docker-compose.yml @imNayrb

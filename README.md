@@ -210,6 +210,10 @@ Ogni pull request passa dalla CI, che esegue quattro job:
 Nessun test chiama l'API di Claude: il modello è isolato dietro un'interfaccia e sostituito
 da fake deterministici. I test sono quindi veloci, gratuiti e ripetibili.
 
+Sul fronte della sicurezza, **CodeQL** analizza Java, Python, TypeScript e i workflow,
+**Dependabot** aggiorna le dipendenze ogni settimana e le pull request che introducono
+dipendenze vulnerabili vengono bloccate. Dettagli in [SECURITY.md](SECURITY.md).
+
 ## Struttura del repository
 
 ```
@@ -219,14 +223,17 @@ expense-assistant/
 ├── frontend/       Web app Angular                                  → frontend/README.md
 ├── docs/           ARCHITETTURA.md e immagini
 ├── scripts/        Test end-to-end dello stack
-├── .github/        CI e template delle pull request
+├── .github/        CI, sicurezza, Dependabot, CODEOWNERS e modelli di PR e issue
 ├── CHANGELOG.md    Cronostoria delle modifiche
-└── CLAUDE.md       Convenzioni del repository
+├── CLAUDE.md       Convenzioni del repository
+├── CONTRIBUTING.md Come proporre modifiche
+└── SECURITY.md     Politica di sicurezza
 ```
 
 Il lavoro è organizzato in pull request piccole e tematiche, con
 [Conventional Commits](https://www.conventionalcommits.org/it/) e un
-[CHANGELOG](CHANGELOG.md) aggiornato a ogni modifica.
+[CHANGELOG](CHANGELOG.md) aggiornato a ogni modifica. Vuoi proporre qualcosa? Leggi
+[CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Prossimi passi
 
