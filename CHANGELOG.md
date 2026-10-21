@@ -5,6 +5,19 @@ Tutte le modifiche rilevanti del progetto sono documentate in questo file, dalla
 Il formato si basa su [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/)
 e il progetto segue il [Versionamento Semantico](https://semver.org/lang/it/).
 
+## [0.5.0] - 2026-10-21
+
+### Aggiunto
+- `docker-compose.yml` con PostgreSQL, backend e frontend; `Dockerfile` multi-stage per
+  backend (JRE, utente non root) e frontend (nginx con proxy verso `/api`).
+- `.env.example` con le variabili d'ambiente.
+- `docs/ARCHITETTURA.md`: scelte di progetto, flussi, test, limiti noti e domande tipiche
+  da colloquio.
+- Job di CI che costruisce le immagini Docker.
+
+### Modificato
+- README riscritto con funzionalità, architettura, avvio con Docker e sviluppo locale.
+
 ## [0.4.0] - 2026-10-21
 
 ### Aggiunto
