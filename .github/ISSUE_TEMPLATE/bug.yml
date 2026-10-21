@@ -1,0 +1,50 @@
+name: Segnala un errore
+description: Qualcosa non funziona come dovrebbe.
+title: "[Errore] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Grazie della segnalazione. Per i problemi di sicurezza usa invece la segnalazione privata (vedi SECURITY.md).
+  - type: dropdown
+    id: componente
+    attributes:
+      label: Componente
+      options:
+        - Frontend (interfaccia web)
+        - Backend (API)
+        - Assistente (interpretazione delle frasi o chat)
+        - Server MCP
+        - Docker / avvio
+        - Non so
+    validations:
+      required: true
+  - type: textarea
+    id: cosa-succede
+    attributes:
+      label: Cosa succede
+      description: Descrivi l'errore e, se c'è, il messaggio mostrato.
+    validations:
+      required: true
+  - type: textarea
+    id: passaggi
+    attributes:
+      label: Come riprodurlo
+      placeholder: |
+        1. Apri la pagina Movimenti
+        2. Seleziona il mese di settembre
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: atteso
+    attributes:
+      label: Cosa ti aspettavi
+    validations:
+      required: true
+  - type: input
+    id: ambiente
+    attributes:
+      label: Ambiente
+      placeholder: "es. Docker Compose su macOS, Chrome 141"

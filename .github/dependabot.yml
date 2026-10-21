@@ -1,0 +1,65 @@
+# Dependabot apre pull request per aggiornare le dipendenze, una volta a settimana.
+# Gli aggiornamenti minori e le patch sono raggruppati per non riempire il repository di PR.
+version: 2
+
+updates:
+  - package-ecosystem: maven
+    directory: /backend
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Europe/Rome
+    commit-message:
+      prefix: "chore(backend)"
+    groups:
+      dipendenze-backend:
+        update-types: [minor, patch]
+
+  - package-ecosystem: pip
+    directory: /mcp-server
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Europe/Rome
+    commit-message:
+      prefix: "chore(mcp-server)"
+    groups:
+      dipendenze-mcp-server:
+        update-types: [minor, patch]
+
+  - package-ecosystem: npm
+    directory: /frontend
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Europe/Rome
+    commit-message:
+      prefix: "chore(frontend)"
+    groups:
+      # Angular va aggiornato tutto insieme: pacchetti con versioni diverse non sono compatibili.
+      angular:
+        patterns: ["@angular/*", "@angular-devkit/*"]
+      dipendenze-frontend:
+        update-types: [minor, patch]
+        exclude-patterns: ["@angular/*", "@angular-devkit/*"]
+
+  - package-ecosystem: docker
+    directories: [/backend, /frontend]
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Europe/Rome
+    commit-message:
+      prefix: "chore(docker)"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Europe/Rome
+    commit-message:
+      prefix: "ci"
+    groups:
+      azioni-github:
+        patterns: ["*"]

@@ -5,6 +5,22 @@ Tutte le modifiche rilevanti del progetto sono documentate in questo file, dalla
 Il formato si basa su [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/)
 e il progetto segue il [Versionamento Semantico](https://semver.org/lang/it/).
 
+## [1.0.3] - 2026-10-22
+
+### Aggiunto
+- `SECURITY.md` con la politica di sicurezza, la segnalazione privata delle vulnerabilità
+  e il modello di sicurezza del progetto.
+- `CONTRIBUTING.md` con le regole per proporre modifiche tramite fork e pull request.
+- `.github/CODEOWNERS`: il maintainer è revisore di tutte le modifiche.
+- Dependabot per le dipendenze di backend, server MCP, frontend, immagini Docker e
+  GitHub Actions, con aggiornamenti raggruppati ogni settimana.
+- Workflow "Sicurezza": analisi CodeQL di Java, Python, TypeScript e workflow, e revisione
+  delle dipendenze nelle pull request (attivi quando il repository è pubblico).
+- Modelli per le issue (errore e proposta), con le issue vuote disattivate.
+
+### Modificato
+- CI: permessi minimi documentati, token non salvato nel checkout, timeout su ogni job.
+
 ## [1.0.2] - 2026-10-22
 
 ### Modificato

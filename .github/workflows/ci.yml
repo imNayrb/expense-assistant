@@ -5,6 +5,8 @@ on:
   push:
     branches: [main]
 
+# Permessi minimi: i job leggono il codice e basta. Un'azione compromessa non può
+# scrivere nel repository.
 permissions:
   contents: read
 
@@ -17,11 +19,15 @@ jobs:
   backend:
     name: Backend (Java 21, Maven)
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     defaults:
       run:
         working-directory: backend
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Il token non resta salvato nella copia locale del repository.
+          persist-credentials: false
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -33,11 +39,15 @@ jobs:
   mcp-server:
     name: Server MCP (Python)
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     defaults:
       run:
         working-directory: mcp-server
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Il token non resta salvato nella copia locale del repository.
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -55,11 +65,15 @@ jobs:
   frontend:
     name: Frontend (Angular)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: frontend
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Il token non resta salvato nella copia locale del repository.
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           # Node 24 include npm 11, la versione usata per il lockfile.
@@ -79,9 +93,13 @@ jobs:
   end-to-end:
     name: End-to-end (Docker Compose)
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: [backend, mcp-server, frontend]
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Il token non resta salvato nella copia locale del repository.
+          persist-credentials: false
       - name: Avvia lo stack
         run: docker compose up -d --build
       - name: Test delle API e del frontend
