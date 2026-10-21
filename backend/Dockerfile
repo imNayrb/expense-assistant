@@ -1,6 +1,6 @@
 # Build in due fasi: Maven compila il jar, l'immagine finale contiene solo la JRE.
 
-FROM maven:3.9-eclipse-temurin-21 AS build
+FROM maven:3.9-eclipse-temurin-26 AS build
 WORKDIR /app
 # Prima solo il pom: le dipendenze restano in cache finché il pom non cambia.
 COPY pom.xml .
