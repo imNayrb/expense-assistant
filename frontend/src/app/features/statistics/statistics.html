@@ -1,0 +1,74 @@
+<header class="head">
+  <h1>Statistiche</h1>
+  <app-month-picker [(month)]="month" />
+</header>
+
+@if (error()) {
+  <p class="notice error" role="alert">{{ error() }}</p>
+}
+
+@if (summary(); as s) {
+  @if (s.count === 0) {
+    <div class="empty card">
+      <p>Nessuna spesa a {{ monthName() }}: non c'è ancora niente da analizzare.</p>
+      <button type="button" class="btn" (click)="ui.openSheet()">Aggiungi una spesa</button>
+    </div>
+  } @else {
+    <section class="card donut-card">
+      <div class="donut">
+        <!-- Cerchio di circonferenza 100: le percentuali diventano direttamente lunghezze. -->
+        <svg
+          viewBox="0 0 42 42"
+          role="img"
+          [attr.aria-label]="'Ripartizione delle spese di ' + monthName()"
+        >
+          <circle class="track" cx="21" cy="21" r="15.915" />
+          @for (slice of slices(); track slice.code; let i = $index) {
+            <circle
+              class="slice"
+              cx="21"
+              cy="21"
+              r="15.915"
+              [attr.stroke]="slice.color"
+              [attr.stroke-dasharray]="arc(slice)"
+              [attr.stroke-dashoffset]="-slice.offset"
+              [style.transition-delay.ms]="i * 60"
+            />
+          }
+        </svg>
+        <div class="center">
+          <span class="total" [appCountUp]="s.total"></span>
+          <span class="muted">{{ s.count === 1 ? '1 spesa' : s.count + ' spese' }}</span>
+        </div>
+      </div>
+    </section>
+
+    <h2 class="list-title">Per categoria</h2>
+    <ul class="ranking">
+      @for (slice of slices(); track slice.code; let i = $index) {
+        <li class="card rise" [style.--i]="i">
+          <app-category-icon [code]="slice.code" [size]="40" />
+          <div class="info">
+            <div class="line">
+              <span class="name">{{ slice.label }}</span>
+              <span class="value">{{ slice.total | currency: 'EUR' }}</span>
+            </div>
+            <div class="bar" aria-hidden="true">
+              <span
+                [style.background]="slice.color"
+                [style.transform]="'scaleX(' + barScale(slice) + ')'"
+                [style.transition-delay.ms]="150 + i * 60"
+              ></span>
+            </div>
+            <span class="muted meta">
+              {{ slice.share | number: '1.0-0' }}% del totale,
+              {{ slice.count === 1 ? '1 spesa' : slice.count + ' spese' }}
+            </span>
+          </div>
+        </li>
+      }
+    </ul>
+  }
+} @else if (!error()) {
+  <div class="skeleton donut-skeleton" aria-hidden="true"></div>
+}

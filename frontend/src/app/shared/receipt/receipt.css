@@ -1,14 +1,13 @@
-/* Lo scontrino: carta bianca, separatori tratteggiati, bordo inferiore seghettato. */
+/*
+ * Lo scontrino: resta di carta anche nel tema scuro, è l'elemento riconoscibile dell'app.
+ * Separatori tratteggiati, cifre monospace, bordo inferiore seghettato.
+ */
 .receipt {
-  --tooth: 10px;
+  --tooth: 9px;
   position: relative;
-  max-width: 26rem;
-  padding: 1.5rem 1.5rem calc(1.5rem + var(--tooth));
-  background: var(--surface);
-  box-shadow:
-    0 1px 0 var(--line),
-    0 12px 24px -18px rgb(29 39 64 / 0.35);
-  /* Denti in basso: una maschera con triangoli ripetuti. */
+  padding: 1.5rem 1.4rem calc(1.4rem + var(--tooth));
+  background: var(--paper);
+  color: var(--paper-ink);
   -webkit-mask:
     linear-gradient(#000 0 0) top / 100% calc(100% - var(--tooth)) no-repeat,
     conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom /
@@ -17,14 +16,14 @@
     linear-gradient(#000 0 0) top / 100% calc(100% - var(--tooth)) no-repeat,
     conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom /
       calc(2 * var(--tooth)) var(--tooth) repeat-x;
-  animation: print 420ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation: print 560ms var(--ease-out) both;
 }
 
-/* L'unico movimento dell'interfaccia: lo scontrino "esce dalla stampante". */
+/* Lo scontrino "esce dalla stampante". */
 @keyframes print {
   from {
     clip-path: inset(0 0 100% 0);
-    transform: translateY(-0.75rem);
+    transform: translateY(-16px);
   }
   to {
     clip-path: inset(0 0 0 0);
@@ -34,12 +33,19 @@
 
 .heading {
   font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--muted);
+  font-weight: 700;
   text-align: center;
-  padding-bottom: 0.75rem;
+  padding-bottom: 0.9rem;
   margin-bottom: 1rem;
-  border-bottom: 1px dashed var(--line);
+  border-bottom: 1px dashed var(--paper-line);
+}
+
+label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--paper-ink) 60%, transparent);
+  margin-bottom: 0.15rem;
 }
 
 .field {
@@ -47,31 +53,27 @@
 }
 
 /* Sullo scontrino i campi sono righe sottolineate, non riquadri. */
-.field input,
-.field select {
+input,
+select {
   border: none;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--paper-line);
   border-radius: 0;
   padding: 0.35rem 0.1rem;
   background: transparent;
+  color: var(--paper-ink);
+  color-scheme: light;
 }
 
-.field input:focus-visible,
-.field select:focus-visible {
-  outline: none;
-  border-bottom: 2px solid var(--accent);
+input:focus,
+select:focus {
+  box-shadow: none;
+  border-bottom: 2px solid #4f55e8;
 }
 
 .row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
-}
-
-@media (max-width: 26rem) {
-  .row {
-    grid-template-columns: 1fr;
-  }
 }
 
 .mono {
@@ -83,35 +85,34 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
-  padding-top: 0.9rem;
+  padding-top: 1rem;
   margin: 0.25rem 0 1.25rem;
-  border-top: 1px dashed var(--line);
+  border-top: 1px dashed var(--paper-line);
 }
 
 .total label {
   margin: 0;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.total input:focus-visible {
-  outline: none;
-  border-bottom-color: var(--accent);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--paper-ink);
 }
 
 .total input {
-  max-width: 9rem;
+  max-width: 9.5rem;
   text-align: right;
-  font-size: 1.6rem;
+  font-size: 1.9rem;
   font-weight: 600;
-  border: none;
-  border-bottom: 2px solid var(--ink);
-  border-radius: 0;
+  border-bottom: 2px solid var(--paper-ink);
   padding: 0 0.1rem;
-  background: transparent;
 }
 
 .actions {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
   gap: 0.5rem;
+}
+
+.actions .btn.secondary {
+  background: #ecece6;
+  color: var(--paper-ink);
 }

@@ -197,6 +197,19 @@ con MCP il loop lo esegue il **client** (Claude Desktop), e noi forniamo solo i 
   sola quando arriva una nuova interpretazione.
 - Date sempre in **ora locale** (`toIsoDate`), non `toISOString()` che usa UTC: alle 00:30
   in Italia, in UTC è ancora "ieri".
+- **Stato condiviso minimo** (`UiState`): un contatore `version` che cambia a ogni modifica
+  delle spese (le pagine lo leggono in un `effect` e ricaricano) e l'apertura del bottom
+  sheet. Niente store complessi: per un'app di questa taglia bastano i signals.
+- **Eliminazione ottimistica**: la riga sparisce subito, la chiamata parte in background e
+  la notifica offre "Annulla", che ricrea la spesa. Se la chiamata fallisce, la lista viene
+  ricaricata dal server.
+- **Animazioni performanti**: solo `transform`, `opacity` e attributi SVG, così il browser
+  le esegue sulla GPU senza ricalcolare il layout. Il contatore del totale scrive il testo
+  direttamente a ogni frame invece di passare dal change detection. Le transizioni tra
+  pagine usano la View Transitions API (`withViewTransitions()` del router). Con
+  `prefers-reduced-motion` tutto diventa istantaneo.
+- Il bottom sheet usa `<dialog>` nativo: focus trap, tasto Esc e sfondo inerte arrivano dal
+  browser, senza librerie.
 
 ## 6. Test
 
@@ -206,7 +219,7 @@ con MCP il loop lo esegue il **client** (Claude Desktop), e noi forniamo solo i 
 | Unità | `ExpenseParserTest`, `ChatAssistantTest` | Logica di parsing e loop agentico con un Claude finto |
 | Contratto | `AnthropicLlmClientTest` | Header, JSON in snake_case, gestione degli errori con `MockRestServiceServer` |
 | MCP | `mcp-server/tests` | Tool, resource, prompt ed errori con backend finto e client in-process |
-| Frontend | `*.spec.ts` (Vitest) | Date, client dell'API, flusso completo della pagina Aggiungi |
+| Frontend | `*.spec.ts` (Vitest) | Date, importi, client dell'API, flusso del bottom sheet, eliminazione annullabile, tab bar |
 
 La **CI** (GitHub Actions) esegue tutto a ogni pull request, più formattazione (ruff,
 Prettier) e build delle immagini Docker.

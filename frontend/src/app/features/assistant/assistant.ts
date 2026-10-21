@@ -1,7 +1,9 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, ElementRef, OnInit, inject, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ArrowUp, LucideAngularModule, Sparkles } from 'lucide-angular';
 import { ExpenseApi, errorMessage } from '../../core/expense-api';
 import { ChatMessage } from '../../core/models';
+import { UiState } from '../../core/ui-state';
 
 interface Turn extends ChatMessage {
   /** Per le risposte: quali dati ha consultato Claude. */
@@ -20,18 +22,22 @@ const TOOL_LABELS: Record<string, string> = {
  * il backend riceve l'intera conversazione (è stateless).
  */
 @Component({
-  selector: 'app-chat',
-  imports: [FormsModule],
-  templateUrl: './chat.html',
-  styleUrl: './chat.css',
+  selector: 'app-assistant',
+  imports: [FormsModule, LucideAngularModule],
+  templateUrl: './assistant.html',
+  styleUrl: './assistant.css',
 })
-export class Chat implements OnInit {
+export class Assistant implements OnInit {
   private readonly api = inject(ExpenseApi);
+  private readonly ui = inject(UiState);
+  private readonly end = viewChild<ElementRef<HTMLElement>>('end');
 
+  protected readonly icons = { ArrowUp, Sparkles };
   protected readonly suggestions = [
     'Quanto ho speso questo mese?',
     'In cosa spendo di più?',
     'Che spese ho fatto la settimana scorsa?',
+    'Confronta ottobre con settembre',
   ];
 
   protected readonly turns = signal<Turn[]>([]);
@@ -56,6 +62,7 @@ export class Chat implements OnInit {
     this.question.set('');
     this.thinking.set(true);
     this.error.set(null);
+    this.scrollToEnd();
 
     // Al backend vanno solo ruolo e testo. Tengo le ultime 19 battute: un numero dispari,
     // così la cronologia inizia (e finisce) con un messaggio dell'utente, come richiede l'API.
@@ -69,10 +76,15 @@ export class Chat implements OnInit {
           {
             role: 'assistant',
             content: reply.reply,
-            sources: reply.toolsUsed.map((name) => TOOL_LABELS[name] ?? name),
+            sources: [...new Set(reply.toolsUsed.map((name) => TOOL_LABELS[name] ?? name))],
           },
         ]);
         this.thinking.set(false);
+        // Se Claude ha registrato una spesa, le altre pagine devono saperlo.
+        if (reply.toolsUsed.includes('add_expense')) {
+          this.ui.expensesChanged();
+        }
+        this.scrollToEnd();
       },
       error: (e) => {
         // Tolgo la domanda senza risposta, così la conversazione resta valida, e la rimetto nel campo.
@@ -84,7 +96,9 @@ export class Chat implements OnInit {
     });
   }
 
-  protected uniqueSources(sources: string[] = []): string {
-    return [...new Set(sources)].join(', ');
+  private scrollToEnd(): void {
+    setTimeout(() =>
+      this.end()?.nativeElement.scrollIntoView?.({ behavior: 'smooth', block: 'end' }),
+    );
   }
 }

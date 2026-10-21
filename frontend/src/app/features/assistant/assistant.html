@@ -1,0 +1,79 @@
+<header class="head">
+  <span class="avatar" aria-hidden="true"><lucide-icon [img]="icons.Sparkles" [size]="20" /></span>
+  <div>
+    <h1>Assistente</h1>
+    <p class="muted">Risponde leggendo le tue spese reali</p>
+  </div>
+</header>
+
+@if (enabled() === false) {
+  <p class="notice">
+    L'assistente non è attivo: imposta ANTHROPIC_API_KEY nel backend per fare domande sulle tue
+    spese.
+  </p>
+} @else {
+  @if (turns().length === 0) {
+    <section class="intro">
+      <p>Chiedimi qualsiasi cosa sulle tue spese. Per esempio:</p>
+      <div class="suggestions">
+        @for (s of suggestions; track s; let i = $index) {
+          <button
+            type="button"
+            class="suggestion card pressable rise"
+            [style.--i]="i"
+            (click)="ask(s)"
+          >
+            {{ s }}
+          </button>
+        }
+      </div>
+    </section>
+  }
+
+  <ol class="conversation" aria-live="polite">
+    @for (turn of turns(); track $index) {
+      <li
+        class="bubble"
+        [class.user]="turn.role === 'user'"
+        [class.assistant]="turn.role === 'assistant'"
+      >
+        <p>{{ turn.content }}</p>
+        @if (turn.sources?.length) {
+          <span class="sources">Dati consultati: {{ turn.sources!.join(', ') }}</span>
+        }
+      </li>
+    }
+    @if (thinking()) {
+      <li class="bubble assistant typing" aria-label="L'assistente sta scrivendo">
+        <span></span><span></span><span></span>
+      </li>
+    }
+  </ol>
+  <div #end></div>
+
+  @if (error()) {
+    <p class="notice error" role="alert">{{ error() }}</p>
+  }
+
+  <form class="composer" (ngSubmit)="ask()">
+    <label for="question" class="sr-only">La tua domanda</label>
+    <input
+      id="question"
+      name="question"
+      autocomplete="off"
+      enterkeyhint="send"
+      placeholder="Fai una domanda…"
+      [ngModel]="question()"
+      (ngModelChange)="question.set($event)"
+      maxlength="2000"
+    />
+    <button
+      type="submit"
+      class="send pressable"
+      [disabled]="!question().trim() || thinking()"
+      aria-label="Invia"
+    >
+      <lucide-icon [img]="icons.ArrowUp" [size]="20" [strokeWidth]="2.6" />
+    </button>
+  </form>
+}

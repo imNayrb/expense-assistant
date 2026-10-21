@@ -4,23 +4,23 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    title: 'Aggiungi una spesa',
-    loadComponent: () => import('./features/add/add-expense').then((m) => m.AddExpense),
+    title: 'Panoramica · Spese',
+    loadComponent: () => import('./features/overview/overview').then((m) => m.Overview),
   },
   {
-    path: 'spese',
-    title: 'Spese',
-    loadComponent: () => import('./features/list/expense-list').then((m) => m.ExpenseList),
+    path: 'movimenti',
+    title: 'Movimenti · Spese',
+    loadComponent: () => import('./features/movements/movements').then((m) => m.Movements),
   },
   {
-    path: 'riepilogo',
-    title: 'Riepilogo',
-    loadComponent: () => import('./features/summary/summary').then((m) => m.Summary),
+    path: 'statistiche',
+    title: 'Statistiche · Spese',
+    loadComponent: () => import('./features/statistics/statistics').then((m) => m.Statistics),
   },
   {
-    path: 'chiedi',
-    title: 'Chiedi',
-    loadComponent: () => import('./features/chat/chat').then((m) => m.Chat),
+    path: 'assistente',
+    title: 'Assistente · Spese',
+    loadComponent: () => import('./features/assistant/assistant').then((m) => m.Assistant),
   },
   { path: '**', redirectTo: '' },
 ];

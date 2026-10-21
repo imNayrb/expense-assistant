@@ -1,0 +1,178 @@
+.head {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+.head .muted {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--hero);
+}
+
+.intro p {
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+.suggestions {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 0.5rem;
+}
+
+.suggestion {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 700;
+  border-radius: var(--radius);
+  transition:
+    transform 160ms var(--ease-out),
+    border-color 160ms;
+}
+
+.suggestion:hover {
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+.conversation {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 1rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bubble {
+  max-width: 85%;
+  padding: 0.75rem 1rem;
+  border-radius: 1.25rem;
+  animation: bubble-in 360ms var(--ease-spring) both;
+}
+
+.bubble p {
+  white-space: pre-line;
+}
+
+.user {
+  align-self: flex-end;
+  border-bottom-right-radius: 0.4rem;
+  background: var(--accent);
+  color: #fff;
+  transform-origin: bottom right;
+}
+
+.assistant {
+  align-self: flex-start;
+  border-bottom-left-radius: 0.4rem;
+  background: var(--bg-elev);
+  border: 1px solid var(--stroke);
+  transform-origin: bottom left;
+}
+
+.sources {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Tre puntini che rimbalzano mentre Claude risponde */
+.typing {
+  display: flex;
+  gap: 0.3rem;
+  padding: 1rem 1.1rem;
+}
+
+.typing span {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--muted);
+  animation: bounce 1.1s ease-in-out infinite;
+}
+
+.typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.typing span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes bounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  30% {
+    transform: translateY(-5px);
+    opacity: 1;
+  }
+}
+
+@keyframes bubble-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(6px);
+  }
+}
+
+/* Campo di scrittura fisso sopra la tab bar */
+.composer {
+  position: sticky;
+  bottom: calc(var(--tabbar) + 0.75rem + env(safe-area-inset-bottom));
+  margin-top: 1rem;
+}
+
+@media (min-width: 60rem) {
+  .composer {
+    bottom: 1.5rem;
+  }
+}
+
+.composer input {
+  min-height: 3.5rem;
+  padding: 0 3.75rem 0 1.25rem;
+  border-radius: 999px;
+  background: var(--bg-elev);
+  box-shadow: var(--shadow);
+}
+
+.send {
+  position: absolute;
+  top: 50%;
+  right: 0.4rem;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-top: -1.375rem;
+  border: none;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  transition:
+    transform 200ms var(--ease-spring),
+    opacity 160ms;
+}
+
+.send:disabled {
+  opacity: 0.35;
+  transform: scale(0.85);
+  cursor: not-allowed;
+}
