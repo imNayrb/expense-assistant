@@ -1,6 +1,6 @@
 # Build in due fasi: Node compila l'app, nginx la serve e inoltra /api al backend.
 
-FROM node:24-alpine AS build
+FROM node:25-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
