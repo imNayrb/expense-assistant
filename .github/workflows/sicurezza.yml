@@ -1,8 +1,12 @@
 name: Sicurezza
 
-# Analisi statica del codice (CodeQL) e controllo delle nuove dipendenze nelle pull request.
-# Entrambi sono gratuiti per i repository pubblici; su un repository privato richiedono
-# GitHub Advanced Security, quindi i job vengono saltati finché il repository è privato.
+# Analisi statica del codice con CodeQL, su ogni pull request, su main e ogni settimana.
+# È gratuita per i repository pubblici; su un repository privato richiede GitHub Advanced
+# Security, quindi il job viene saltato se il repository torna privato.
+#
+# La revisione delle dipendenze (actions/dependency-review-action) non è inclusa: richiede
+# il "Dependency graph" attivo nelle impostazioni del repository. Una volta attivato, si può
+# aggiungere un job dedicato.
 
 on:
   pull_request:
@@ -43,21 +47,3 @@ jobs:
       - uses: github/codeql-action/analyze@v4
         with:
           category: /language:${{ matrix.language }}
-
-  dipendenze:
-    name: Revisione delle dipendenze
-    if: ${{ github.event_name == 'pull_request' && !github.event.repository.private }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions:
-      contents: read
-      pull-requests: write
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-      - uses: actions/dependency-review-action@v5
-        with:
-          # Blocca la PR se introduce dipendenze con vulnerabilità di gravità alta o critica.
-          fail-on-severity: high
-          comment-summary-in-pr: on-failure

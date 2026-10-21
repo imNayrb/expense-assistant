@@ -210,9 +210,9 @@ Ogni pull request passa dalla CI, che esegue quattro job:
 Nessun test chiama l'API di Claude: il modello è isolato dietro un'interfaccia e sostituito
 da fake deterministici. I test sono quindi veloci, gratuiti e ripetibili.
 
-Sul fronte della sicurezza, **CodeQL** analizza Java, Python, TypeScript e i workflow,
-**Dependabot** aggiorna le dipendenze ogni settimana e le pull request che introducono
-dipendenze vulnerabili vengono bloccate. Dettagli in [SECURITY.md](SECURITY.md).
+Sul fronte della sicurezza, **CodeQL** analizza Java, Python, TypeScript e i workflow a
+ogni pull request e ogni settimana, e **Dependabot** propone ogni settimana gli
+aggiornamenti delle dipendenze. Dettagli in [SECURITY.md](SECURITY.md).
 
 ## Struttura del repository
 

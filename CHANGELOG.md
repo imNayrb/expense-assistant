@@ -15,6 +15,11 @@ e il progetto segue il [Versionamento Semantico](https://semver.org/lang/it/).
   Angular 22, TypeScript 7…) richiedono migrazioni e si fanno a mano. Le immagini Docker
   restano su Java 21 e Node 24 LTS.
 
+### Rimosso
+- Job di revisione delle dipendenze dal workflow "Sicurezza": richiede il Dependency graph
+  attivo nelle impostazioni del repository e altrimenti fallisce su ogni pull request.
+  CodeQL resta attivo.
+
 ## [1.0.3] - 2026-10-22
 
 ### Aggiunto
