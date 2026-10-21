@@ -12,7 +12,7 @@ available to Claude Desktop and Claude Code.
 
 | Folder        | Stack                      | Role                                         |
 |---------------|----------------------------|----------------------------------------------|
-| `backend/`    | Java 21, Spring Boot 3     | REST API, persistence, Claude integration    |
+| [`backend/`](backend/README.md) | Java 21, Spring Boot 3 | REST API, persistence, Claude integration |
 | `mcp-server/` | Python 3.11+, MCP SDK      | Exposes expenses to MCP clients              |
 | `frontend/`   | Angular                    | Web UI (Italian)                             |
 
