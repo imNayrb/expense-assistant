@@ -72,7 +72,12 @@ claude mcp add expense-assistant -- "$(pwd)/.venv/bin/expense-mcp-server"
 
 Ogni pull request passa dalla CI: test del backend (integrazione con H2, parser, loop
 della chat, contratto HTTP), test del server MCP, test e build del frontend, formattazione
-e build delle immagini Docker. Nessun test chiama l'API di Claude.
+e un **test end-to-end** che avvia tutto con Docker Compose (PostgreSQL, backend, nginx) e
+usa il server MCP contro il backend reale. Nessun test chiama l'API di Claude.
+
+```bash
+docker compose up -d --build && ./scripts/smoke-test.sh
+```
 
 Le modifiche sono raccolte nel [CHANGELOG](CHANGELOG.md); le convenzioni del repository
 sono in [CLAUDE.md](CLAUDE.md).

@@ -17,7 +17,8 @@ expense-assistant/
 ├── backend/      API REST Spring Boot 3 (Java 21): persistenza + integrazione con Claude
 ├── mcp-server/   Server MCP in Python che espone le spese come tool, resource e prompt
 ├── frontend/     Web app Angular (interfaccia in italiano)
-├── docs/         Note di architettura (ARCHITETTURA.md)
+├── docs/         Note di architettura (ARCHITETTURA.md) e screenshot
+├── scripts/      Test end-to-end dello stack (smoke-test.sh)
 ├── .github/      Workflow di CI e template delle PR
 ├── CHANGELOG.md  Cronostoria di tutte le modifiche
 └── CLAUDE.md     Questo file
@@ -33,7 +34,7 @@ solo tramite l'API HTTP del backend.
 | backend    | `cd backend && mvn spring-boot:run`           | `cd backend && mvn verify` |
 | mcp-server | `cd mcp-server && pip install -e ".[dev]"`    | `cd mcp-server && pytest`  |
 | frontend   | `cd frontend && npm ci && npm start`          | `cd frontend && npm test`  |
-| tutto      | `docker compose up --build`                   | CI su ogni pull request    |
+| tutto      | `docker compose up --build`                   | `./scripts/smoke-test.sh`  |
 
 Il backend richiede `ANTHROPIC_API_KEY` nell'ambiente per le funzioni dell'assistente;
 gli endpoint CRUD funzionano anche senza.
