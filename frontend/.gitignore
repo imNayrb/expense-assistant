@@ -1,0 +1,8 @@
+# Output di build e cache di Angular
+/dist
+/out-tsc
+/.angular/cache
+
+# Dipendenze
+/node_modules
+npm-debug.log

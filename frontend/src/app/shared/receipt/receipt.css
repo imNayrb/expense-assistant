@@ -1,0 +1,117 @@
+/* Lo scontrino: carta bianca, separatori tratteggiati, bordo inferiore seghettato. */
+.receipt {
+  --tooth: 10px;
+  position: relative;
+  max-width: 26rem;
+  padding: 1.5rem 1.5rem calc(1.5rem + var(--tooth));
+  background: var(--surface);
+  box-shadow:
+    0 1px 0 var(--line),
+    0 12px 24px -18px rgb(29 39 64 / 0.35);
+  /* Denti in basso: una maschera con triangoli ripetuti. */
+  -webkit-mask:
+    linear-gradient(#000 0 0) top / 100% calc(100% - var(--tooth)) no-repeat,
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom /
+      calc(2 * var(--tooth)) var(--tooth) repeat-x;
+  mask:
+    linear-gradient(#000 0 0) top / 100% calc(100% - var(--tooth)) no-repeat,
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom /
+      calc(2 * var(--tooth)) var(--tooth) repeat-x;
+  animation: print 420ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* L'unico movimento dell'interfaccia: lo scontrino "esce dalla stampante". */
+@keyframes print {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(-0.75rem);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    transform: none;
+  }
+}
+
+.heading {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-align: center;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px dashed var(--line);
+}
+
+.field {
+  margin-bottom: 0.9rem;
+}
+
+/* Sullo scontrino i campi sono righe sottolineate, non riquadri. */
+.field input,
+.field select {
+  border: none;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  padding: 0.35rem 0.1rem;
+  background: transparent;
+}
+
+.field input:focus-visible,
+.field select:focus-visible {
+  outline: none;
+  border-bottom: 2px solid var(--accent);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+@media (max-width: 26rem) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mono {
+  font-family: var(--mono);
+}
+
+.total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.9rem;
+  margin: 0.25rem 0 1.25rem;
+  border-top: 1px dashed var(--line);
+}
+
+.total label {
+  margin: 0;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.total input:focus-visible {
+  outline: none;
+  border-bottom-color: var(--accent);
+}
+
+.total input {
+  max-width: 9rem;
+  text-align: right;
+  font-size: 1.6rem;
+  font-weight: 600;
+  border: none;
+  border-bottom: 2px solid var(--ink);
+  border-radius: 0;
+  padding: 0 0.1rem;
+  background: transparent;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}

@@ -1,0 +1,59 @@
+h1 {
+  margin: 1.5rem 0 1rem;
+}
+
+.conversation {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.conversation li {
+  max-width: 85%;
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--radius);
+}
+
+.conversation p {
+  margin: 0;
+  white-space: pre-line;
+}
+
+.user {
+  align-self: flex-end;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.assistant {
+  align-self: flex-start;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.pending {
+  color: var(--muted);
+}
+
+.sources {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.ask {
+  display: flex;
+  gap: 0.5rem;
+  position: sticky;
+  bottom: 1rem;
+}
+
+@media (max-width: 30rem) {
+  .conversation li {
+    max-width: 100%;
+  }
+}
