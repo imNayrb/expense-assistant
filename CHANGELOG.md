@@ -5,6 +5,14 @@ Tutte le modifiche rilevanti del progetto sono documentate in questo file, dalla
 Il formato si basa su [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/)
 e il progetto segue il [Versionamento Semantico](https://semver.org/lang/it/).
 
+## [1.0.6] - 2026-10-22
+
+### Aggiunto
+- CI: audit delle dipendenze del frontend (`npm audit`, fallisce con vulnerabilità alte o
+  critiche) e del server MCP (`pip-audit`).
+- Workflow "Sicurezza": job che riporta come annotazioni gli avvisi CodeQL aperti su `main`
+  e fallisce se ce ne sono di gravità alta o critica.
+
 ## [1.0.5] - 2026-10-22
 
 ### Sicurezza
