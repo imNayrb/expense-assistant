@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: expense-assistant
+  # Default: H2 su file, nessuna configurazione. Usa il profilo "postgres" per PostgreSQL.
+  datasource:
+    url: jdbc:h2:file:./data/expenses
+    username: sa
+    password:
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none # lo schema è gestito dalle migrazioni Flyway
+  flyway:
+    enabled: true
+
+anthropic:
+  api-key: ${ANTHROPIC_API_KEY:}
+  model: ${ANTHROPIC_MODEL:claude-haiku-5-5}
+  max-tokens: 1024
+
+app:
+  zone: Europe/Rome
+  cors-allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

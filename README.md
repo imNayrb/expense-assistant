@@ -12,7 +12,7 @@ Claude Desktop e Claude Code.
 
 | Cartella      | Stack                      | Ruolo                                        |
 |---------------|----------------------------|----------------------------------------------|
-| `backend/`    | Java 21, Spring Boot 3     | API REST, persistenza, integrazione con Claude |
+| [`backend/`](backend/README.md) | Java 21, Spring Boot 3 | API REST, persistenza, integrazione con Claude |
 | `mcp-server/` | Python 3.11+, MCP SDK      | Espone le spese ai client MCP                |
 | `frontend/`   | Angular                    | Interfaccia web                              |
 
