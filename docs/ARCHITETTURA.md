@@ -219,10 +219,11 @@ con MCP il loop lo esegue il **client** (Claude Desktop), e noi forniamo solo i 
 | Unità | `ExpenseParserTest`, `ChatAssistantTest` | Logica di parsing e loop agentico con un Claude finto |
 | Contratto | `AnthropicLlmClientTest` | Header, JSON in snake_case, gestione degli errori con `MockRestServiceServer` |
 | MCP | `mcp-server/tests` | Tool, resource, prompt ed errori con backend finto e client in-process |
+| End-to-end | `scripts/smoke-test.sh`, `mcp-server/tests/test_e2e.py` | Stack reale con Docker Compose: PostgreSQL e Flyway, nginx, routing lato client, server MCP via stdio contro il backend |
 | Frontend | `*.spec.ts` (Vitest) | Date, importi, client dell'API, flusso del bottom sheet, eliminazione annullabile, tab bar |
 
 La **CI** (GitHub Actions) esegue tutto a ogni pull request, più formattazione (ruff,
-Prettier) e build delle immagini Docker.
+Prettier) e il test end-to-end sullo stack avviato con Docker Compose.
 
 ## 7. Limiti noti e sviluppi futuri
 

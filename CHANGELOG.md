@@ -5,6 +5,18 @@ Tutte le modifiche rilevanti del progetto sono documentate in questo file, dalla
 Il formato si basa su [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/)
 e il progetto segue il [Versionamento Semantico](https://semver.org/lang/it/).
 
+## [1.0.1] - 2026-10-22
+
+### Aggiunto
+- Test end-to-end con Docker Compose (`scripts/smoke-test.sh`): PostgreSQL con le
+  migrazioni Flyway, API attraverso nginx, routing lato client, assistente spento senza
+  chiave.
+- Test end-to-end del server MCP avviato via stdio contro il backend reale
+  (`mcp-server/tests/test_e2e.py`).
+
+### Modificato
+- CI: il job end-to-end sostituisce la sola build delle immagini Docker.
+
 ## [1.0.0] - 2026-10-21
 
 ### Modificato

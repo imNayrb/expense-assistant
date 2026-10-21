@@ -75,11 +75,30 @@ jobs:
       - name: Build di produzione
         run: npm run build
 
-  docker:
-    name: Immagini Docker
+  # Avvia lo stack completo (PostgreSQL, backend, nginx) e lo usa come farebbe un utente.
+  end-to-end:
+    name: End-to-end (Docker Compose)
     runs-on: ubuntu-latest
-    needs: [backend, frontend]
+    needs: [backend, mcp-server, frontend]
     steps:
       - uses: actions/checkout@v4
-      - name: Build delle immagini con docker compose
-        run: docker compose build
+      - name: Avvia lo stack
+        run: docker compose up -d --build
+      - name: Test delle API e del frontend
+        run: ./scripts/smoke-test.sh
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test del server MCP contro il backend reale
+        working-directory: mcp-server
+        env:
+          EXPENSE_E2E_API_URL: http://localhost:8080
+        run: |
+          pip install -e ".[dev]"
+          pytest -q tests/test_e2e.py
+      - name: Log dei container in caso di errore
+        if: failure()
+        run: docker compose logs --no-color
+      - name: Arresta lo stack
+        if: always()
+        run: docker compose down -v
